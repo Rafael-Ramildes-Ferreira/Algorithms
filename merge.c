@@ -7,7 +7,10 @@
 #ifdef BENCHMARKING
 #include <benchmark/benchmark.h>
 
-char list[10][100] = {
+#define list_size  100
+#define arg_num  10
+int list_index = 0;
+char list[arg_num][list_size] = {
 	{78, 23, 91, 47, 12, 35, 66, 80, 55, 3, 95,  42,  67, 30, 15, 60, 5,  88, 99, 10,
 	24,  70, 33, 51, 6,  82, 16, 98, 64, 13, 49, 77,  90, 22, 29, 43, 39, 8,  32, 54,
 	25,  41, 97, 62, 1,  84, 50, 28, 21, 96, 46, 7,   74, 63, 87, 40, 17, 52, 11, 31,
@@ -68,8 +71,6 @@ char list[10][100] = {
 	95, 18, 35, 3, 13, 78, 29, 15, 87, 17, 83, 23, 28, 58, 52, 42, 54, 47, 70, 40,
 	5, 1, 38, 79, 33, 88, 100, 86, 44, 51, 90, 61, 62, 96, 92, 72, 82, 69, 65, 84}
 };
-int list_size = 100;
-int list_index = 0;
 #endif
 
 void merge(char *destination, char *list1, int size1, char *list2, int size2){
@@ -193,18 +194,32 @@ void merge_sort_book(char *list, int begin, int end){
 static void BM_MergeSort(benchmark::State& state)
 {
 	for (auto _ : state) {
-		merge_sort(list[list_index++%10], list_size);
+		merge_sort(list[list_index++%10], state.range(0));
 	}
+	state.SetComplexityN(state.range(0));
 }
 static void BM_BookMergeSort(benchmark::State& state)
 {
 	for (auto _ : state) {
-		merge_sort_book(list[list_index++%10], 0, list_size);
-	}
+		merge_sort_book(list[list_index++%10], 0, state.range(0));
+	}	
+	state.SetComplexityN(state.range(0));
 }
 
-BENCHMARK(BM_MergeSort)->ReportAggregatesOnly(1)->Repetitions(10);
-BENCHMARK(BM_BookMergeSort)->ReportAggregatesOnly(1)->Repetitions(10);
+BENCHMARK(BM_MergeSort)
+	->ReportAggregatesOnly(1)
+	// ->DenseRange(0,arg_num-1,1);
+	->ArgsProduct({
+		// benchmark::CreateDenseRange(0,arg_num-1,1),
+		benchmark::CreateDenseRange(10,list_size+9,(list_size-10)/10)
+	})//;
+	->Complexity(benchmark::oN);
+	//->Repetitions(10);
+BENCHMARK(BM_BookMergeSort)
+	->ReportAggregatesOnly(1)
+	->DenseRange(10,list_size+9,(list_size-10)/10)
+	->Complexity(benchmark::oN);
+	//->Repetitions(10);
 BENCHMARK_MAIN();
 #else
 int main(){

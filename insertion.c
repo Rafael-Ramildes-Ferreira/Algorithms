@@ -117,74 +117,37 @@ void insertion_sort_book(char *list,int size){
 }
 
 #ifdef BENCHMARKING
-class CustomMemoryManager: public benchmark::MemoryManager {
-	public:
-	
-		int64_t num_allocs;
-		int64_t max_bytes_used;
-	
-	
-		void Start() override {
-			num_allocs = 0;
-			max_bytes_used = 0;
-		}
-	
-		void Stop(benchmark::MemoryManager::Result& result) override {
-			result.num_allocs = num_allocs;
-			result.max_bytes_used = max_bytes_used;
-		}
-	};
-
-  
-std::unique_ptr<CustomMemoryManager> mm(new CustomMemoryManager());
-void *custom_malloc(size_t size) {
-    void *p = malloc(size);
-    mm.get()->num_allocs += 1;
-    mm.get()->max_bytes_used += size;
-    return p;
-}
-#define malloc(size) custom_malloc(size)
-
 static void BM_InsertionSort(benchmark::State& state)
 {
-	for (auto _ : state) {
-		insertion_sort(list[state.range(0)%arg_num], list_size);// state.range(1));
-	}
-}
-
-static void BM_BookInsertionSort(benchmark::State& state)
-{
-	// std::unique_ptr<benchmark::MemoryManager> mm(new TestMemoryManager());
-	// benchmark::RegisterMemoryManager(mm.get());
 	for (auto _ : state) {
 		insertion_sort(list[list_index++%arg_num], state.range(0));
 	}
 	state.SetComplexityN(state.range(0));
-	// benchmark::RegisterMemoryManager(nullptr);
 }
 
-// BENCHMARK(BM_InsertionSort)
-// 	->ReportAggregatesOnly(1)
-// 	->DenseRange(0,arg_num-1,1);
-	// ->ArgsProduct({
-	// 	benchmark::CreateDenseRange(0,arg_num-1,1)
-	// 	// benchmark::CreateDenseRange(10,list_size,(list_size-10)/10)
-	// });
-	//->Complexity(benchmark::oN);
+static void BM_BookInsertionSort(benchmark::State& state)
+{
+	for (auto _ : state) {
+		insertion_sort(list[list_index++%arg_num], state.range(0));
+	}
+	state.SetComplexityN(state.range(0));
+}
+
+BENCHMARK(BM_InsertionSort)
+	->ReportAggregatesOnly(1)
+	// ->DenseRange(0,arg_num-1,1);
+	->ArgsProduct({
+		// benchmark::CreateDenseRange(0,arg_num-1,1),
+		benchmark::CreateDenseRange(10,list_size+9,(list_size-10)/10)
+	})//;
+	->Complexity(benchmark::oN);
 	//->Repetitions(10);
 BENCHMARK(BM_BookInsertionSort)
 	->ReportAggregatesOnly(1)
-	->DenseRange(10,list_size,(list_size-10)/10)
+	->DenseRange(10,list_size+9,(list_size-10)/10)
 	->Complexity(benchmark::oN);
 	//->Repetitions(10);
-//BENCHMARK_MAIN();
-int main(int argc, char** argv)
-{
-    ::benchmark::RegisterMemoryManager(mm.get());
-    ::benchmark::Initialize(&argc, argv);
-    ::benchmark::RunSpecifiedBenchmarks();
-    ::benchmark::RegisterMemoryManager(nullptr);
-}
+BENCHMARK_MAIN();
 #else
 int main(){
 	char list[] = {2,4,1,5,10,8,3};
