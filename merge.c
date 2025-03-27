@@ -71,6 +71,37 @@ char list[arg_num][list_size] = {
 	95, 18, 35, 3, 13, 78, 29, 15, 87, 17, 83, 23, 28, 58, 52, 42, 54, 47, 70, 40,
 	5, 1, 38, 79, 33, 88, 100, 86, 44, 51, 90, 61, 62, 96, 92, 72, 82, 69, 65, 84}
 };
+
+
+size_t malloc_size_sum = 0;
+int num_malloc_calls = 0;
+auto malloc_hook = [](size_t size){
+	malloc_size_sum += size;
+	num_malloc_calls++;
+};
+
+void *custom_malloc(size_t size) {
+    void *p = malloc(size);
+	malloc_hook(size);
+    return p;
+}
+#define alg_malloc(size) custom_malloc(size)
+
+#define AFTER_TEST \
+	state.SetComplexityN(state.range(0)); \
+	auto iter = state.iterations(); \
+	state.counters["malloc size"] = malloc_size_sum / iter; \
+	if(num_malloc_calls != 0){\
+		state.counters["malloc avr"] = malloc_size_sum / num_malloc_calls;\
+	} else {\
+		state.counters["malloc avr"] = 0;\
+	}\
+	state.counters["malloc calls"] = num_malloc_calls / iter; \
+	malloc_size_sum = 0; \
+	num_malloc_calls = 0;
+
+#else
+#define alg_malloc(size) malloc(size)
 #endif
 
 void merge(char *destination, char *list1, int size1, char *list2, int size2){
@@ -118,9 +149,9 @@ void merge_sort(char *list, int size){
 		int size1 = size/2;
 		int size2 = size - size1;
 
-		char *first_half = (char*) malloc(sizeof(char)*size1);
+		char *first_half = (char*) alg_malloc(sizeof(char)*size1);
 		assert(first_half != NULL);
-		char *second_half = (char*) malloc(sizeof(char)*size2);
+		char *second_half = (char*) alg_malloc(sizeof(char)*size2);
 		assert(second_half != NULL);
 
 		(void*) memcpy(first_half, list,sizeof(char)*size1);
@@ -141,9 +172,9 @@ void merge_book(char *list,int begin, int middle, int end){
 	int right_len = end - middle;
 
 	
-	char *first_half = (char*) malloc(sizeof(char)*left_len);
+	char *first_half = (char*) alg_malloc(sizeof(char)*left_len);
 	assert(first_half != NULL);
-	char *second_half = (char*) malloc(sizeof(char)*(right_len));
+	char *second_half = (char*) alg_malloc(sizeof(char)*(right_len));
 	assert(second_half != NULL);
 
 	(void*) memcpy(first_half, &list[begin],sizeof(char)*left_len);
@@ -191,19 +222,20 @@ void merge_sort_book(char *list, int begin, int end){
 }
 
 #ifdef BENCHMARKING
+
 static void BM_MergeSort(benchmark::State& state)
 {
 	for (auto _ : state) {
 		merge_sort(list[list_index++%10], state.range(0));
 	}
-	state.SetComplexityN(state.range(0));
+	AFTER_TEST
 }
 static void BM_BookMergeSort(benchmark::State& state)
 {
 	for (auto _ : state) {
 		merge_sort_book(list[list_index++%10], 0, state.range(0));
 	}	
-	state.SetComplexityN(state.range(0));
+	AFTER_TEST
 }
 
 BENCHMARK(BM_MergeSort)

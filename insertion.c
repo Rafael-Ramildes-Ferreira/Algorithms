@@ -71,6 +71,37 @@ char list[arg_num][list_size] = {
 	95, 18, 35, 3, 13, 78, 29, 15, 87, 17, 83, 23, 28, 58, 52, 42, 54, 47, 70, 40,
 	5, 1, 38, 79, 33, 88, 100, 86, 44, 51, 90, 61, 62, 96, 92, 72, 82, 69, 65, 84}
 };
+
+
+size_t malloc_size_sum = 0;
+int num_malloc_calls = 0;
+auto malloc_hook = [](size_t size){
+	malloc_size_sum += size;
+	num_malloc_calls++;
+};
+
+void *custom_malloc(size_t size) {
+    void *p = malloc(size);
+	malloc_hook(size);
+    return p;
+}
+#define alg_malloc(size) custom_malloc(size)
+
+#define AFTER_TEST \
+	state.SetComplexityN(state.range(0)); \
+	auto iter = state.iterations(); \
+	state.counters["malloc size"] = malloc_size_sum / iter; \
+	if(num_malloc_calls != 0){\
+		state.counters["malloc avr"] = malloc_size_sum / num_malloc_calls;\
+	} else {\
+		state.counters["malloc avr"] = 0;\
+	}\
+	state.counters["malloc calls"] = num_malloc_calls / iter; \
+	malloc_size_sum = 0; \
+	num_malloc_calls = 0;
+
+#else
+#define alg_malloc(size) malloc(size)
 #endif
 
 
@@ -122,7 +153,7 @@ static void BM_InsertionSort(benchmark::State& state)
 	for (auto _ : state) {
 		insertion_sort(list[list_index++%arg_num], state.range(0));
 	}
-	state.SetComplexityN(state.range(0));
+	AFTER_TEST
 }
 
 static void BM_BookInsertionSort(benchmark::State& state)
@@ -130,7 +161,7 @@ static void BM_BookInsertionSort(benchmark::State& state)
 	for (auto _ : state) {
 		insertion_sort(list[list_index++%arg_num], state.range(0));
 	}
-	state.SetComplexityN(state.range(0));
+	AFTER_TEST
 }
 
 BENCHMARK(BM_InsertionSort)
