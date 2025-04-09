@@ -97,10 +97,10 @@ class Church:
 			assert(man.married != None)			# Every man should be married
 			assert(man == man.married.married)	# The spouse of the man's spouse should be himself
 			i: int = man.search_index - 1
-			while i > 0:
+			while i >= 0:
 				# Asserts that every higher rank woman is married to a higher rank man
 				woman: Women = man.preference_list[i]
-				assert(woman.rank[woman.married] <= woman.rank[man])
+				assert(woman.rank[woman.married] <= woman.rank[man]) # Higher rank is smaller number
 				i -= 1
 ###############################################################################
 
