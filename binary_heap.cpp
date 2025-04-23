@@ -2,13 +2,21 @@
 #include <iostream>
 
 
+/**
+ * @class BinaryHeap
+ * @brief Declares a Binary Heap for a generic type T
+ * @param T Element type
+ * @param S Maximum size (Probably unecessary)
+ */
 template<typename T, unsigned int S>
 class BinaryHeap {
 private:
-	T _values[S];
+	T *_values;
 public:
 	BinaryHeap();
 	BinaryHeap(T *values, unsigned int size);
+	BinaryHeap(T *values);
+
 	T get_parent(int index);
 	T get_left_child(int index);
 	T get_right_child(int index);
@@ -35,7 +43,16 @@ template<typename T, unsigned int S>
 BinaryHeap<T,S>::BinaryHeap(T *values, unsigned int size)
 {
 	this->size = size;
+	this->_values = (int*) malloc(S*sizeof(T));
 	memcpy(this->_values, values, size*sizeof(T));
+	this->heapify(0);
+}
+
+template<typename T, unsigned int S>
+BinaryHeap<T,S>::BinaryHeap(T *values) : _values(values)
+{
+	// Assumes the maximum size
+	this->size = S;
 	this->heapify(0);
 }
 
@@ -126,7 +143,8 @@ T *BinaryHeap<T,S>::end()
 int main()
 {
 	int list[] = {1,4,6,2,4};
-	auto foo = BinaryHeap<int,10>(list, 5);
+	BinaryHeap<int,5> foo = list;
+	// auto foo = BinaryHeap<int,10>(list, 5);
 	std::cout << foo[0] << std::endl;
 	std::cout << foo[1] << std::endl;
 	std::cout << foo[2] << std::endl;
