@@ -8,6 +8,7 @@ struct Node {
 	T data;
 	Node* left;
 	Node* right;
+	Node* p;
 
 	Node(T value) : data(value), left(nullptr), right(nullptr) {}
 
@@ -53,8 +54,12 @@ public:
 	void in_order_walk(Node<T>* x);
 	Node<T>* search(T value);
 	Node<T>* search(Node<T> *node, T value);
+	Node<T>* minimum();
+	Node<T>* maximum();
+	static Node<T>* predecessor(Node<T> *node);
+	static Node<T>* successor(Node<T> *node);
 
-private:
+// private:
 	Node<T>* root;
 };
 
@@ -63,18 +68,19 @@ private:
 /*########################### METHOD IMPLEMENTATION ##########################*/
 template<typename T>
 void BinarySearchTree<T>::insert(T value) {
-	Node<T> *node = root;
+	Node<T> *node = this->root;
 
-	if(root == nullptr) {
-		root = new Node<T>(value);
+	if(this->root == nullptr) {
+		this->root = new Node<T>(value);
 		return;
 	}
 
-	while (node != nullptr) {
+	while (node != nullptr) { // Basically an infinite loop
 		if (*node > value) {
 		
 			if(node->left == nullptr) {
 				node->left = new Node<T>(value);
+				node->left->p = node;
 				return;
 			}
 			node = node->left;
@@ -83,6 +89,7 @@ void BinarySearchTree<T>::insert(T value) {
 
 			if(node->right == nullptr) {
 				node->right = new Node<T>(value);
+				node->right->p = node;
 				return;
 			}
 			node = node->right;
@@ -127,20 +134,112 @@ Node<T>* BinarySearchTree<T>::search(Node<T> *node, T value) {
 	}
 }
 
+template<typename T>
+Node<T>* BinarySearchTree<T>::minimum()
+{
+	if(root == nullptr) {
+		return nullptr;
+	}
+
+	Node<T>* node = root;
+	while(node->left != nullptr){
+		node = node->left;
+	}
+
+	return node;
+}
+
+template<typename T>
+Node<T>* BinarySearchTree<T>::maximum()
+{
+	if(root == nullptr) {
+		return nullptr;
+	}
+
+	Node<T>* node = root;
+	while(node->right != nullptr){
+		node = node->right;
+	}
+
+	return node;
+}
+
+template<typename T>
+Node<T>* BinarySearchTree<T>::predecessor(Node<T> *node)
+{
+	if(node == nullptr){
+		return nullptr;
+	}
+
+	// return node->left->maximum();
+	Node<T> *aux = node->left;
+	if(aux != nullptr){
+		while(aux->right != nullptr){
+			aux = aux->right;
+		}
+
+		return aux;
+	} else {
+		Node<T> *parent = node->p;
+		Node<T> *aux = node;
+		while(parent != nullptr && parent->left == aux){
+			aux = parent;
+			parent = parent->p;
+		}
+
+		return parent;
+	}
+
+}
+
+template<typename T>
+Node<T>* BinarySearchTree<T>::successor(Node<T> *node)
+{
+	if(node == nullptr){
+		return nullptr;
+	}
+
+	// return node->right->minimum();
+	Node<T> *aux = node->right;
+	if(aux != nullptr){
+		while(aux->left != nullptr){
+			aux = aux->left;
+		}
+		
+		return aux;
+	} else {
+		Node<T> *parent = node->p;
+		Node<T> *aux = node;
+		while(parent != nullptr && parent->right == aux){
+			aux = parent;
+			parent = parent->p;
+		}
+
+		return parent;
+	}
+}
+
 int main() {
 	BinarySearchTree<int> bst;
-	bst.insert(50);
-	bst.insert(30);
-	bst.insert(70);
-	bst.insert(20);
-	bst.insert(40);
-	bst.insert(60);
-	bst.insert(80);
+	bst.insert(5);
+	bst.insert(3);
+	bst.insert(7);
+	bst.insert(2);
+	bst.insert(4);
+	bst.insert(6);
+	bst.insert(8);
 
 	std::cout << "Inorder Traversal: ";
 	bst.in_order_walk();
 
-	int key = 40;
+	std::cout << "Minimum: " << bst.minimum()->data << std::endl;
+	std::cout << "Maximum: " << bst.maximum()->data << std::endl;
+
+	std::cout << "Root successor: " << BinarySearchTree<int>::successor(bst.root)->data << std::endl;
+	std::cout << "Root predecessor: " << BinarySearchTree<int>::predecessor(bst.root)->data << std::endl;
+
+
+	int key = 4;
 	if (bst.search(key)) {
 		std::cout << key << " found in the BST." << std::endl;
 	} else {
