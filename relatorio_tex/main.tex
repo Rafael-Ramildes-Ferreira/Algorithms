@@ -1,5 +1,5 @@
 % !TeX root = main.tex
-\documentclass[a4paper,12pt]{article}
+\documentclass[a4paper,12pt,twocolumn]{article}
 
 % Packages
 \usepackage[utf8]{inputenc}
@@ -18,12 +18,17 @@
 \begin{document}
 
 \maketitle
-\noindent\rule{\textwidth}{0.5pt}
+% \noindent\rule{\textwidth}{0.5pt}
 % \tableofcontents
 % \newpage
 
 \section*{Introduction}
-Provide an overview of the assignment, objectives, and any relevant background information.
+
+Throughout the semester, some of the studied algorithms and data structures were implemented as a course assignment. They were initially implemented in C. The Gale-Shapley Algorithm was implemented in Python, for the built-in hash map (\texttt{dict}). Later C++ was used to implement the binary heap and binary tree, to make use of the class definition as a template.
+
+The whole implementation as well as the \LaTeX source code and the report as a pdf are available on GitHub at \url{https://github.com/Rafael-Ramildes-Ferreira/Algorithms}
+
+The Implementation of the first two algorithms are explained and compared in \autoref{sec:sorting}. The Gale-Shapley algorithm is explained in \autoref{sec:gale-shapley}. The binary heap implementation and heap sort are discussed in \autoref{sec:binary-heap}. Finally, the binary tree implementation is presented in \autoref{sec:binary-tree}.
 
 \section{Basic Sorting Algorithms}
 \label{sec:sorting}
