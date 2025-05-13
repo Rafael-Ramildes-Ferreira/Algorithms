@@ -4,6 +4,7 @@
 % Packages
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
+\usepackage[backend=biber,style=abnt]{biblatex}
 \usepackage{amsmath, amssymb}
 \usepackage{graphicx}
 \usepackage{hyperref}
@@ -14,6 +15,8 @@
 \title{Algorithm Implementation Report}
 \author{Rafael Ramildes Ferreira \\ \href{mailto:rafaelramildes@hotmail.com}{\texttt{rafaelramildes@hotmail.com}}}
 \date{Florianópolis, SC \\ 2025}
+
+\bibliography{bibliography}
 
 \begin{document}
 
@@ -26,19 +29,29 @@
 
 Throughout the semester, some of the studied algorithms and data structures were implemented as a course assignment. They were initially implemented in C. The Gale-Shapley Algorithm was implemented in Python, for the built-in hash map (\texttt{dict}). Later C++ was used to implement the binary heap and binary tree, to make use of the class definition as a template.
 
-The whole implementation as well as the \LaTeX source code and the report as a pdf are available on GitHub at \url{https://github.com/Rafael-Ramildes-Ferreira/Algorithms}
+The whole implementation as well as the \LaTeX\ source code and the report as a pdf are available on GitHub at \url{https://github.com/Rafael-Ramildes-Ferreira/Algorithms}
 
 The Implementation of the first two algorithms are explained and compared in \autoref{sec:sorting}. The Gale-Shapley algorithm is explained in \autoref{sec:gale-shapley}. The binary heap implementation and heap sort are discussed in \autoref{sec:binary-heap}. Finally, the binary tree implementation is presented in \autoref{sec:binary-tree}.
 
 \section{Basic Sorting Algorithms}
 \label{sec:sorting}
-\subsection{Merge Sort}
-Clearly define the problem or task you are addressing in this assignment.
+
+The basic sorting algorithms implemented in this assignment are Insertion Sort (\autoref{sec:insertion-sort}) and Merge Sort (\autoref{sec:merge-sort}). The implementation of these algorithms is done in C and a makefile is provided to compile each of the algorithm's code. In addition, for comparing the two implementations, Google's Benchmark library is used, see \autoref{sec:benchmark}.
 
 \subsection{Insertion Sort}
-Explain the approach, algorithms, or techniques used to solve the problem.
+\label{sec:insertion-sort}
+The insertion sort algorithm uses a insertion of a new element in a sorted list. This element is inserted before the smallest element that is greater than it, keeping the list sorted. It is used to sort any list \verb|A[1..n]| doing a insertion of the \verb|i|th element in the sublist \verb|A[1..i-1]|. Starting with \verb|i| equal 2, and increasing \verb|i| at avery insertion, until \verb|i| is equal to \verb|n|, the end result is the sorted version of the list \verb|A[1..n]|.
+
+Firstly, the algorithm was implemented using recursion. From a full size list \verb|A[1..n]|, the algorithm calls itself with a smaller list \verb|A[1..n-1]|. The base case is when the list has two elements, where the function decides the order of the elements. When it happens, the program starts working down the stack, inserting the last element in the sorted list. The insertion function loops through the list to find the correct position for the new element. The algorithm is implemented in \verb|insertion.c|.
+
+\textcite{cormenIntroductionAlgorithms2022} defines the insertion sort algorithm with two nested loops: the outer loop for each value of \verb|i|; the inner loop is analogous with the insertion function of the previous implementation. This method avoids build up the program memory stack and avoid the overhead of function calls. Inspite of this, both implementation present a very similar excecution time and number of operations.
+
+\subsection{Merge Sort}
+\label{sec:merge-sort}
+Clearly define the problem or task you are addressing in this assignment.
 
 \subsection{Analysis}
+\label{sec:benchmark}
 
 
 \section{Gale-Shapley Algorithm}
@@ -56,5 +69,8 @@ Summarize the key findings and suggest possible future work.
 
 \section{Binary Tree}
 \label{sec:binary-tree}
+
+\section*{References}
+\printbibliography
 
 \end{document}

@@ -123,45 +123,45 @@ void *custom_malloc(size_t size) {
 #endif
 
 
-void insert(char *list, int size, char to_insert){
-	for(int i = size-1; i >= 0; i--){
-		if(to_insert < list[i]){
-			list[i+1] = list[i];
+void insert(char *list, int size, char to_insert){	// costs 4*n where n is `size`
+	for(int i = size-1; i >= 0; i--){	// 2*(n) -- 2 because of the comparison and the decrement
+		if(to_insert < list[i]){		// (n)
+			list[i+1] = list[i];		// (n-1)
 		}
 		else{
-			list[i+1] = to_insert;
+			list[i+1] = to_insert;		// (1 or 0)
 			return;
 		}
 	}
-	list[0] = to_insert;
+	list[0] = to_insert;				// (1 or 0)
 }
 
-void insertion_sort(char *list,int size){
-	if(size == 2){
-		if(list[0] > list[1]){
-			char aux = list[0];
-			list[0] = list[1];
-			list[1] = aux;
-		}
-		return;
+void insertion_sort(char *list,int size){	// costs n + 4 + (n-2)*2 + 4*(n-2)(n-1)/2 = 2n^2 - 3n  + 4
+	if(size == 2){						// (n-2 + 1)
+		if(list[0] > list[1]){			// (1)
+			char aux = list[0];			// (1 or 0)
+			list[0] = list[1];			// (1 or 0)
+			list[1] = aux;				// (1 or 0)
+		}		
+		return;							// (1)
 	}
 	else{
-		insertion_sort(list, size - 1);
-		char aux = list[size-1];
-		insert(list, size - 1, aux);
+		insertion_sort(list, size - 1);	// (n-2)
+		char aux = list[size-1];		// (n-2)
+		insert(list, size - 1, aux);	// sum_{k=2}^{n}(4*k) = 4*(n-2)(n-1)/2
 		return;
 	}
 }
 
-void insertion_sort_book(char *list,int size){
-	for(int i = 1; i < size; i++){
-		char key = list[i];
-		int j = i - 1;
-		while(j >= 0 && list[j] > key){
-			list[j+1] = list[j];
-			j--;
+void insertion_sort_book(char *list,int size){	// costs 2*n + 5*(n-1) + 2*(n-1)(n)/2 = n^2 + 6n - 5
+	for(int i = 1; i < size; i++){		// 2*(n) -- 2 because of the comparison and the increment
+		char key = list[i];				// (n-1)
+		int j = i - 1;					// (n-1)
+		while(j >= 0 && list[j] > key){	// 2*(n-1) -- 2 for both comparisons (I could also consider the &&)
+			list[j+1] = list[j];		// sum_{k=1}^{n-1}(k) = (n-1)(n)/2
+			j--;						// sum_{k=1}^{n-1}(k) = (n-1)(n)/2
 		}
-		list[j+1] = key;
+		list[j+1] = key;				// (n-1)
 	}
 }
 
