@@ -36,19 +36,45 @@ The Implementation of the first two algorithms are explained and compared in \au
 \section{Basic Sorting Algorithms}
 \label{sec:sorting}
 
-The basic sorting algorithms implemented in this assignment are Insertion Sort (\autoref{sec:insertion-sort}) and Merge Sort (\autoref{sec:merge-sort}). The implementation of these algorithms is done in C and a makefile is provided to compile each of the algorithm's code. In addition, for comparing the two implementations, Google's Benchmark library is used, see \autoref{sec:benchmark}.
+The basic sorting algorithms implemented in this assignment are Insertion Sort and Merge Sort. The implementation of these algorithms is done in C and a makefile is provided to compile each of the algorithm's code.
+The code divides the author's implementation and the implementation proposed by \cite{cormenIntroductionAlgorithms2022} by adding the sufix \verb|_book| in the function name.
+The author's implementation was made by memory from the algorithm presented in class.
+In addition, for comparing the two implementations, Google's Benchmark library is used.
+
+The file \verb|Benchmarking.md| contains the results of the benchmarking tests.
+Additionally, there is a python script that plots the execution time of the algorithms.
+
+In \autoref{sec:insertion-sort} and \autoref{sec:merge-sort} is an explaination of this work's proposed implementation of the insertion and merge sort, respectively, and how they differ from the book's implementation. \autoref{sec:benchmark} presents the results of the benchmarking tests and compares the two implementations.
 
 \subsection{Insertion Sort}
 \label{sec:insertion-sort}
-The insertion sort algorithm uses a insertion of a new element in a sorted list. This element is inserted before the smallest element that is greater than it, keeping the list sorted. It is used to sort any list \verb|A[1..n]| doing a insertion of the \verb|i|th element in the sublist \verb|A[1..i-1]|. Starting with \verb|i| equal 2, and increasing \verb|i| at avery insertion, until \verb|i| is equal to \verb|n|, the end result is the sorted version of the list \verb|A[1..n]|.
+The insertion sort algorithm uses a insertion of a new element in a sorted list. This element is inserted before the smallest element that is greater than it, keeping the list sorted. It is used to sort any list \verb|A[1..n]| doing a insertion of the \verb|i|th element in the sublist \verb|A[1..i-1]|. Starting with \verb|i| equal 2, and increasing \verb|i| at every insertion, until \verb|i| is equal to \verb|n|, the end result is the sorted version of the list \verb|A[1..n]|.
 
-Firstly, the algorithm was implemented using recursion. From a full size list \verb|A[1..n]|, the algorithm calls itself with a smaller list \verb|A[1..n-1]|. The base case is when the list has two elements, where the function decides the order of the elements. When it happens, the program starts working down the stack, inserting the last element in the sorted list. The insertion function loops through the list to find the correct position for the new element. The algorithm is implemented in \verb|insertion.c|.
+Firstly, the algorithm was implemented using recursion. From a full size list \verb|A[1..n]|, the algorithm calls itself with a smaller list \verb|A[1..n-1]|. The base case is when the list has two elements, where the function decides the order of the elements. When it happens, the algorithm starts working down the program stack, inserting the last element in the sorted list. The insertion function loops through the list to find the correct position for the new element. The algorithm is implemented in \verb|insertion.c|.
 
 \textcite{cormenIntroductionAlgorithms2022} defines the insertion sort algorithm with two nested loops: the outer loop for each value of \verb|i|; the inner loop is analogous with the insertion function of the previous implementation. This method avoids build up the program memory stack and avoid the overhead of function calls. Inspite of this, both implementation present a very similar excecution time and number of operations.
 
 \subsection{Merge Sort}
 \label{sec:merge-sort}
-Clearly define the problem or task you are addressing in this assignment.
+The merge sort is performed by merging two sorted lists.
+To make these two sorted lists, the merge sort is recursively called on a sublist made by half the original list (\verb|A[1..n/2]| and \verb|A[n/2+1..n]|).
+The base case is when the sublist has one or two element, where is either already sorted, in the case of one element, or the function decides which element cames first, based on a simple if statement.
+The merge sort algorithm is implemented in \verb|merge.c|.
+
+The merging part is implemented in function \verb|merge|, just walking through each sublist and copying the smaller element into a new list.
+When one of the sublists is empty, the remaining elements of the other sublist are copied to the new list.
+The recursively merge sort function is called \verb|merge_sort|, which calls itself with the two sublists until the base case is reached.
+It needs to copy both halves, allocating memory for each sublistm and make sure they're sorted byt calling the \verb|merge_sort| function on each half.
+Then it merges the two sorted halves into a new list, which is returned to the previous call.
+
+The implementation proposed in the book is very similar:
+also uses two functions, one for the merge and another for the merge sort.
+The main diference is that the book performes the allocation and copying of the list in the merge function, which is not recursive, an thus has less memory overhead.
+The merge sort function, then has pointers to the beginning and end of the list to know the portion where the list needs to be sorted.
+In the book implementation, there is only one base case, when the list has one element, which is already sorted.
+
+It performed worse on time, and had more malloc calls.
+The reduction on the number of base cases may be the cause of the increase in malloc calls, since for both, one call is made for every sublist of size greater than two, but only the book implementation calls for sublists of size two. However, the time taken by the malloc calls alone, is not enough to justify the increase in time, as it can be seen in the results of the benchmark.
 
 \subsection{Analysis}
 \label{sec:benchmark}
