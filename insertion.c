@@ -177,7 +177,7 @@ static void BM_InsertionSort(benchmark::State& state)
 static void BM_BookInsertionSort(benchmark::State& state)
 {
 	for (auto _ : state) {
-		insertion_sort(list[list_index++%arg_num], state.range(0));
+		insertion_sort_book(list[list_index++%arg_num], state.range(0));
 	}
 	AFTER_TEST
 }

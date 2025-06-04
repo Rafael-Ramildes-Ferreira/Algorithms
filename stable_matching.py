@@ -20,7 +20,7 @@ class Person(ABC):
 class Men(Person):
 	def __init__(self) -> None:
 		self.married: Women = None
-		self.preference_list: dict[int,Women] = None # Indexed by woman, to quickly find the next ranked woman
+		self.preference_list: dict[int,Women] = None # Indexed by rank, to quickly find the next ranked woman
 		self.search_index: int = 0
 
 	def begin(self, pair: list[Women]) -> None:
@@ -87,7 +87,7 @@ class Church:
 					free_men.pop(0)
 					break
 
-	def validate_marrieges(self) -> None:
+	def validate_marriages(self) -> None:
 		"""Check if every member of a given gender is married
 		and if two or more are not married to the same person"""
 
@@ -110,7 +110,7 @@ class Church:
 def main() -> None:
 	church = Church(n=100)
 	church.gs_algorithm(church.men,church.women)
-	church.validate_marrieges()
+	church.validate_marriages()
 
 if __name__=='__main__':
 	main()
