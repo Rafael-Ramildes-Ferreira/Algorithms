@@ -60,39 +60,39 @@ Load Average: 0.31, 0.24, 0.25
 ---------------------------------------------------------------------------------------------------------
 Benchmark                      Time             CPU   Iterations malloc avr size malloc calls malloc size
 ---------------------------------------------------------------------------------------------------------
-BM_MergeSort/10              449 ns          449 ns      1197393               2           10          26
-BM_MergeSort/109           10805 ns        10805 ns        58570               5          126         654
-BM_MergeSort/208           22131 ns        22131 ns        36999               5          254      1.456k
-BM_MergeSort/307           28088 ns        28088 ns        29391               6          356      2.302k
-BM_MergeSort/406           57418 ns        57418 ns        10000               6          510      3.248k
-BM_MergeSort/505           49977 ns        49977 ns        10062               7          510       4.04k
-BM_MergeSort/604           70024 ns        70024 ns        10930               7          694      5.108k
-BM_MergeSort/703           92729 ns        92730 ns         6717               6          892      6.197k
-BM_MergeSort/802          123083 ns       123083 ns         6181               7       1.022k      7.218k
-BM_MergeSort/901           67729 ns        67729 ns         9150               7       1.022k      8.109k
+BM_MergeSort/10              322 ns          322 ns      2352960               2           10          26
+BM_MergeSort/109            5011 ns         5011 ns       116561               5          126         654
+BM_MergeSort/208           10806 ns        10806 ns        60899               5          254      1.456k
+BM_MergeSort/307           15200 ns        15200 ns        40550               6          356      2.302k
+BM_MergeSort/406           20726 ns        20726 ns        29754               6          510      3.248k
+BM_MergeSort/505           26855 ns        26855 ns        25179               7          510       4.04k
+BM_MergeSort/604           33037 ns        33037 ns        25735               7          694      5.108k
+BM_MergeSort/703           39133 ns        39133 ns        15372               6          892      6.197k
+BM_MergeSort/802           54446 ns        54446 ns        10908               7       1.022k      7.218k
+BM_MergeSort/901           49664 ns        49663 ns        13669               7       1.022k      8.109k
 ----------------------------------------------------------------
 Benchmark                      Time             CPU   Iterations
 ----------------------------------------------------------------
-BM_MergeSort_BigO         104.30 N        104.30 N    
-BM_MergeSort_RMS              34 %            34 %    
+BM_MergeSort_BigO          55.27 N         55.27 N    
+BM_MergeSort_RMS              13 %            13 %    
 ---------------------------------------------------------------------------------------------------------
 Benchmark                      Time             CPU   Iterations malloc avr size malloc calls malloc size
 ---------------------------------------------------------------------------------------------------------
-BM_BookMergeSort/10          950 ns          949 ns       603401               1           18          34
-BM_BookMergeSort/109       16820 ns        16820 ns        49206               3          216         744
-BM_BookMergeSort/208       33463 ns        33463 ns        17680               3          414      1.616k
-BM_BookMergeSort/307       52794 ns        52794 ns        16539               4          612      2.558k
-BM_BookMergeSort/406       70155 ns        70155 ns        10625               4          810      3.548k
-BM_BookMergeSort/505      106113 ns       106114 ns         7348               4       1.008k      4.538k
-BM_BookMergeSort/604      102769 ns       102769 ns         6603               4       1.206k       5.62k
-BM_BookMergeSort/703      107058 ns       107059 ns         8319               4       1.404k      6.709k
-BM_BookMergeSort/802      124372 ns       124373 ns         8347               4       1.602k      7.798k
-BM_BookMergeSort/901      177802 ns       177801 ns         6139               4         1.8k      8.887k
+BM_BookMergeSort/10          538 ns          538 ns      1029276               1           18          34
+BM_BookMergeSort/109        6383 ns         6382 ns        88683               3          216         744
+BM_BookMergeSort/208       14878 ns        14878 ns        42546               3          414      1.616k
+BM_BookMergeSort/307       18908 ns        18908 ns        29827               4          612      2.558k
+BM_BookMergeSort/406       31335 ns        31335 ns        20708               4          810      3.548k
+BM_BookMergeSort/505       37715 ns        37715 ns        19317               4       1.008k      4.538k
+BM_BookMergeSort/604       58541 ns        58541 ns        10000               4       1.206k       5.62k
+BM_BookMergeSort/703       83226 ns        83224 ns         6562               4       1.404k      6.709k
+BM_BookMergeSort/802       62167 ns        62167 ns         8840               4       1.602k      7.798k
+BM_BookMergeSort/901       79171 ns        79170 ns         8187               4         1.8k      8.887k
 ----------------------------------------------------------------
 Benchmark                      Time             CPU   Iterations
 ----------------------------------------------------------------
-BM_BookMergeSort_BigO     170.71 N        170.71 N    
-BM_BookMergeSort_RMS          13 %            13 %   
+BM_BookMergeSort_BigO      86.84 N         86.84 N    
+BM_BookMergeSort_RMS          19 %            19 %   
 
 
 # Insertion sort
@@ -153,43 +153,43 @@ CPU Caches:
   L1 Instruction 32 KiB (x4)
   L2 Unified 1280 KiB (x4)
   L3 Unified 8192 KiB (x1)
-Load Average: 0.48, 0.33, 0.29
+Load Average: 0.04, 0.10, 0.04
 -------------------------------------------------------------------------------------------------------------
 Benchmark                          Time             CPU   Iterations malloc avr size malloc calls malloc size
 -------------------------------------------------------------------------------------------------------------
-BM_InsertionSort/10              109 ns          109 ns      5631804               0            0           0
-BM_InsertionSort/109            2461 ns         2460 ns       265145               0            0           0
-BM_InsertionSort/208            4052 ns         4052 ns       164189               0            0           0
-BM_InsertionSort/307            6294 ns         6294 ns        87806               0            0           0
-BM_InsertionSort/406            7183 ns         7183 ns        89404               0            0           0
-BM_InsertionSort/505           10234 ns        10234 ns        63813               0            0           0
-BM_InsertionSort/604           14478 ns        14478 ns        48564               0            0           0
-BM_InsertionSort/703           14357 ns        14357 ns        38826               0            0           0
-BM_InsertionSort/802           15422 ns        15421 ns        57968               0            0           0
-BM_InsertionSort/901           15206 ns        15205 ns        41929               0            0           0
+BM_InsertionSort/10             60.9 ns         60.9 ns     10135033               0            0           0
+BM_InsertionSort/109            1133 ns         1133 ns       582268               0            0           0
+BM_InsertionSort/208            2388 ns         2388 ns       312531               0            0           0
+BM_InsertionSort/307            3503 ns         3503 ns       195434               0            0           0
+BM_InsertionSort/406            4723 ns         4723 ns       150321               0            0           0
+BM_InsertionSort/505            5649 ns         5649 ns       120672               0            0           0
+BM_InsertionSort/604            6733 ns         6733 ns       101842               0            0           0
+BM_InsertionSort/703            7807 ns         7807 ns        85173               0            0           0
+BM_InsertionSort/802            8902 ns         8901 ns        72274               0            0           0
+BM_InsertionSort/901           10512 ns        10511 ns        68571               0            0           0
 --------------------------------------------------------------------
 Benchmark                          Time             CPU   Iterations
 --------------------------------------------------------------------
-BM_InsertionSort_BigO          19.65 N         19.65 N    
-BM_InsertionSort_RMS              12 %            12 %    
+BM_InsertionSort_BigO          11.53 N         11.53 N    
+BM_InsertionSort_RMS               4 %             4 %    
 -------------------------------------------------------------------------------------------------------------
 Benchmark                          Time             CPU   Iterations malloc avr size malloc calls malloc size
 -------------------------------------------------------------------------------------------------------------
-BM_BookInsertionSort/10          118 ns          118 ns      5728324               0            0           0
-BM_BookInsertionSort/109        2081 ns         2081 ns       346322               0            0           0
-BM_BookInsertionSort/208        4199 ns         4199 ns       128520               0            0           0
-BM_BookInsertionSort/307        5103 ns         5103 ns       102295               0            0           0
-BM_BookInsertionSort/406        7679 ns         7679 ns        78345               0            0           0
-BM_BookInsertionSort/505       10362 ns        10362 ns        63585               0            0           0
-BM_BookInsertionSort/604       10086 ns        10086 ns        53810               0            0           0
-BM_BookInsertionSort/703       11334 ns        11335 ns        47483               0            0           0
-BM_BookInsertionSort/802       14843 ns        14838 ns        54188               0            0           0
-BM_BookInsertionSort/901       17928 ns        17928 ns        44366               0            0           0
+BM_BookInsertionSort/10         33.9 ns         33.9 ns     19651408               0            0           0
+BM_BookInsertionSort/109         435 ns          435 ns      1388602               0            0           0
+BM_BookInsertionSort/208         837 ns          837 ns       709142               0            0           0
+BM_BookInsertionSort/307        1267 ns         1267 ns       798883               0            0           0
+BM_BookInsertionSort/406        1681 ns         1681 ns       366984               0            0           0
+BM_BookInsertionSort/505        2375 ns         2375 ns       436065               0            0           0
+BM_BookInsertionSort/604        2476 ns         2476 ns       295518               0            0           0
+BM_BookInsertionSort/703        2797 ns         2797 ns       300326               0            0           0
+BM_BookInsertionSort/802        3258 ns         3258 ns       188350               0            0           0
+BM_BookInsertionSort/901        3814 ns         3814 ns       193509               0            0           0
 --------------------------------------------------------------------
 Benchmark                          Time             CPU   Iterations
 --------------------------------------------------------------------
-BM_BookInsertionSort_BigO      18.20 N         18.20 N    
-BM_BookInsertionSort_RMS           9 %             9 %   
+BM_BookInsertionSort_BigO       4.20 N          4.20 N    
+BM_BookInsertionSort_RMS           5 %             5 %   
 
 
 # Malloc benchmark
@@ -203,27 +203,30 @@ CPU Caches:
   L1 Instruction 32 KiB (x4)
   L2 Unified 1280 KiB (x4)
   L3 Unified 8192 KiB (x1)
-Load Average: 0.10, 0.26, 0.27
+Load Average: 0.06, 0.11, 0.05
 ------------------------------------------------------------------------------
 Benchmark                                    Time             CPU   Iterations
 ------------------------------------------------------------------------------
-Malloc in mine algorithm/10/2              414 ns          414 ns      2283725
-Malloc in mine algorithm/126/5            4285 ns         4285 ns       124816
-Malloc in mine algorithm/254/5            8882 ns         8881 ns        92662
-Malloc in mine algorithm/356/6           10585 ns        10585 ns        63838
-Malloc in mine algorithm/510/6           13943 ns        13943 ns        50351
-Malloc in mine algorithm/510/7           14501 ns        14501 ns        41672
-Malloc in mine algorithm/694/7           19149 ns        19148 ns        37572
-Malloc in mine algorithm/892/6           21672 ns        21672 ns        27440
-Malloc in mine algorithm/1022/7          29252 ns        29252 ns        24413
-Malloc in mine algorithm/1022/7          32755 ns        32755 ns        21990
-Malloc in the Book algorithm/18/1          532 ns          532 ns      1273146
-Malloc in the Book algorithm/216/3        6221 ns         6221 ns       110597
-Malloc in the Book algorithm/414/3       11843 ns        11843 ns        65436
-Malloc in the Book algorithm/612/4       15782 ns        15782 ns        41677
-Malloc in the Book algorithm/810/4       24674 ns        24674 ns        30166
-Malloc in the Book algorithm/1008/4      40948 ns        40948 ns        17173
-Malloc in the Book algorithm/1206/4      51404 ns        51404 ns        10000
-Malloc in the Book algorithm/1404/4      52748 ns        52748 ns        10000
-Malloc in the Book algorithm/1602/4      56297 ns        56297 ns        11428
-Malloc in the Book algorithm/1800/4      63219 ns        63214 ns         9219
+Malloc in mine algorithm/10/2              178 ns          178 ns      3704662
+Malloc in mine algorithm/126/5            1956 ns         1956 ns       344462
+Malloc in mine algorithm/254/5            3904 ns         3904 ns       188182
+Malloc in mine algorithm/356/6            5707 ns         5707 ns        97173
+Malloc in mine algorithm/510/6            8477 ns         8477 ns        81388
+Malloc in mine algorithm/510/7            8206 ns         8206 ns        78108
+Malloc in mine algorithm/694/7           10809 ns        10809 ns        67404
+Malloc in mine algorithm/892/6           14087 ns        14087 ns        50117
+Malloc in mine algorithm/1022/7          16482 ns        16481 ns        40997
+Malloc in mine algorithm/1022/7          15552 ns        15553 ns        4356
+------------------------------------------------------------------------------
+Benchmark                                    Time             CPU   Iterations
+------------------------------------------------------------------------------
+Malloc in the Book algorithm/18/1          315 ns          315 ns      2252466
+Malloc in the Book algorithm/216/3        3342 ns         3342 ns       200528
+Malloc in the Book algorithm/414/3        6413 ns         6413 ns        96916
+Malloc in the Book algorithm/612/4        9658 ns         9658 ns        69482
+Malloc in the Book algorithm/810/4       12571 ns        12571 ns        60847
+Malloc in the Book algorithm/1008/4      15371 ns        15371 ns        44046
+Malloc in the Book algorithm/1206/4      18751 ns        18751 ns        34906
+Malloc in the Book algorithm/1404/4      22342 ns        22342 ns        29915
+Malloc in the Book algorithm/1602/4      25447 ns        25447 ns        26249
+Malloc in the Book algorithm/1800/4      29004 ns        29004 ns        24817
