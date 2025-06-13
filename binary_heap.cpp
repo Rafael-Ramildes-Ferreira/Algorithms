@@ -1,5 +1,6 @@
 #include <cstring>
 #include <iostream>
+#include <initializer_list>
 
 
 
@@ -8,19 +9,17 @@
  * @class BinaryHeap
  * @brief Declares a Binary Heap for a generic type T
  * @param T Element type
- * @param S Maximum size
  */
-template<typename T, unsigned int S>
+template<typename T>
 class BinaryHeap {
 private:
 	T *_values;
 public:
 	/* Constructors */
-	BinaryHeap();
 	BinaryHeap(T *values, unsigned int size);
-	BinaryHeap(T *values);
+	BinaryHeap(std::initializer_list<T> list);
 
-	/* Especific methods */
+	/* Specific methods */
 	T get_parent(int index);
 	T get_left_child(int index);
 	T get_right_child(int index);
@@ -35,7 +34,7 @@ public:
 	T *end();
 	
 	/* Public attributes */
-	unsigned int heap_size;
+	long unsigned int heap_size;
 
 	/* Operators overide */
 	T& operator[](int index);
@@ -43,81 +42,75 @@ public:
 
 
 /* Constructors ***************************************************************/
-template<typename T, unsigned int S>
-BinaryHeap<T,S>::BinaryHeap()
+template<typename T>
+BinaryHeap<T>::BinaryHeap(T *values, unsigned int size) : _values(values), heap_size(size)
 {
-	this->heap_size = 0;
-}
-
-template<typename T, unsigned int S>
-BinaryHeap<T,S>::BinaryHeap(T *values, unsigned int size)
-{
-	this->heap_size = size;
-	this->_values = (int*) malloc(S*sizeof(T));
-	memcpy(this->_values, values, size*sizeof(T));
 	this->build_heap();
 }
 
-template<typename T, unsigned int S>
-BinaryHeap<T,S>::BinaryHeap(T *values) : _values(values)
+template<typename T>
+BinaryHeap<T>::BinaryHeap(std::initializer_list<T> list) : heap_size(list.size())
 {
-	// Assumes the maximum size
-	this->heap_size = S;
+	this->_values = new T[heap_size];	// Saves in the heap
+	int i = 0;
+	for (const T &val : list) {
+		_values[i++] = val;
+	}
 	this->build_heap();
 }
 
 
-/* Especific methods **********************************************************/
-template<typename T, unsigned int S>
-T BinaryHeap<T,S>::get_parent(int index)
+/* Specific methods ***********************************************************/
+template<typename T>
+T BinaryHeap<T>::get_parent(int index)
 {
 	return (*this)[index/2];
 }
 
-template<typename T, unsigned int S>
-T BinaryHeap<T,S>::get_left_child(int index)
+template<typename T>
+T BinaryHeap<T>::get_left_child(int index)
 {
 	return (*this)[2*index];
 }
 
-template<typename T, unsigned int S>
-T BinaryHeap<T,S>::get_right_child(int index)
+template<typename T>
+T BinaryHeap<T>::get_right_child(int index)
 {
 	return (*this)[2*index + 1];
 }
 
-template<typename T, unsigned int S>
-int BinaryHeap<T,S>::get_parent_index(int index)
+template<typename T>
+int BinaryHeap<T>::get_parent_index(int index)
 {
 	return index/2;
 }
 
-template<typename T, unsigned int S>
-int BinaryHeap<T,S>::get_left_child_index(int index)
+template<typename T>
+int BinaryHeap<T>::get_left_child_index(int index)
 {
 	return 2*index;
 }
 
-template<typename T, unsigned int S>
-int BinaryHeap<T,S>::get_right_child_index(int index)
+template<typename T>
+int BinaryHeap<T>::get_right_child_index(int index)
 {
 	return 2*index + 1;
 }
 
-template<typename T, unsigned int S>
-void BinaryHeap<T,S>::heapify(int index)
+template<typename T>
+void BinaryHeap<T>::heapify(int index)
 {
 	int l = this->get_left_child_index(index);
 	int r = this->get_right_child_index(index);
 	int largest = index;
 
-	if(l <= S){
-		if(l <= this->heap_size && (*this)[l] > (*this)[index]){
+	if(l <= this->heap_size){
+		if((*this)[l] > (*this)[index]){
 			largest = l;
 		}
 
-		if(r <= S){
-			if(r <= this->heap_size && (*this)[r] > (*this)[largest]){
+		if(r <= this->heap_size){
+			if((*this)[r] > (*this)[largest]){
 				largest = r;
 			}
 		}
@@ -131,8 +124,8 @@ void BinaryHeap<T,S>::heapify(int index)
 	}
 }
 
-template<typename T, unsigned int S>
-void BinaryHeap<T,S>::build_heap()
+template<typename T>
+void BinaryHeap<T>::build_heap()
 {
 	for(int i = this->heap_size/2; i > 0; i--){
 		this->heapify(i);
@@ -141,22 +134,22 @@ void BinaryHeap<T,S>::build_heap()
 
 
 /* for loop helpers ***********************************************************/
-template<typename T, unsigned int S>
-T *BinaryHeap<T,S>::begin()
+template<typename T>
+T *BinaryHeap<T>::begin()
 {
 	return this->_values;
 }
 
-template<typename T, unsigned int S>
-T *BinaryHeap<T,S>::end()
+template<typename T>
+T *BinaryHeap<T>::end()
 {
 	return this->_values + this->heap_size;
 }
 
 
 /* Operators overide **********************************************************/
-template<typename T, unsigned int S>
-T& BinaryHeap<T,S>::operator[](int index)
+template<typename T>
+T& BinaryHeap<T>::operator[](int index)
 {
 	return this->_values[index-1];
 }
@@ -165,10 +158,10 @@ T& BinaryHeap<T,S>::operator[](int index)
 /*########################## SORTING IMPLEMENTATION ##########################*/
 
 
-template<typename T, unsigned int N>
-void heap_sort(T *array)
+template<typename T>
+void heap_sort(T *array, unsigned int size)
 {
-	BinaryHeap<T,N> heap(array);
+	BinaryHeap heap(array,size);
 	for(int i = heap.heap_size; i > 0; i--){
 		// Exchange 
 		T aux = heap[1];
@@ -183,27 +176,23 @@ void heap_sort(T *array)
 
 int main()
 {
+	// Example usage of BinaryHeap class
+	BinaryHeap heap = {42, 7, 19, 3, 25, 14, 88, 1, 56, 30};
+	std::cout << "[";
+	for(int i = 0; i < 10; i++){
+		std::cout << heap[i+1] << ", ";
+	}
+	std::cout << "]" << std::endl;
+
+	
+	// Example usage of heap_sort function
 	// int list[] = {1,4,6,2,4};
 	int list[] = {42, 7, 19, 3, 25, 14, 88, 1, 56, 30};
-	heap_sort<int,10>(list);
+	heap_sort(list,10);
 	std::cout << "[";
 	for(int i = 0; i < 10; i++){
 		std::cout << list[i] << ", ";
 	}
 	std::cout << "]" << std::endl;
-
-	// BinaryHeap<int,5> foo = list;
-	// auto foo = BinaryHeap<int,10>(list, 5);
-	// std::cout << foo[0] << std::endl;
-	// std::cout << foo[1] << std::endl;
-	// std::cout << foo[2] << std::endl;
-	// std::cout << foo[3] << std::endl;
-	// std::cout << foo[4] << std::endl;
-
-	// std::cout << "[";
-	// for(auto i: foo){
-	// 	std::cout << i << ", ";
-	// }
-	// std::cout << "]" << std::endl;
 	return 0;
 }
